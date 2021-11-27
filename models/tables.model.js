@@ -1,29 +1,29 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     const Products = sequelize.define(
         "products",
         {
             name: {
-                type: Sequelize.STRING,
+                type: DataTypes.STRING,
                 allowNull: false,
                 required: true,
             },
             description: {
-                type: Sequelize.STRING,
+                type: DataTypes.STRING,
                 allowNull: false,
                 required: true,
             },
             image_url: {
-                type: Sequelize.STRING(2083),
+                type: DataTypes.STRING(2083),
                 allowNull: false,
                 required: true,
             },
             price: {
-                type: Sequelize.INTEGER,
+                type: DataTypes.INTEGER,
                 allowNull: false,
                 required: true,
             },
             brand_id: {
-                type: Sequelize.INTEGER,
+                type: DataTypes.INTEGER,
                 allowNull: false,
                 required: true,
             },
@@ -34,20 +34,38 @@ module.exports = (sequelize, Sequelize) => {
         "brands",
         {
             name: {
-                type: Sequelize.STRING,
+                type: DataTypes.STRING,
                 allowNull: false,
                 required: true,
             },
             logo_url: {
-                type: Sequelize.STRING(2083),
+                type: DataTypes.STRING(2083),
                 allowNull: false,
                 required: true,
             },
         },
         { underscored: true }
     );
+    const Users = sequelize.define("users", {
+        email: {
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull: false,
+            required: true,
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            required: true,
+        },
+        admin: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: 0,
+        },
+    });
     Brands.hasMany(Products);
     Products.belongsTo(Brands);
 
-    return { Products, Brands };
+    return { Products, Brands, Users };
 };
