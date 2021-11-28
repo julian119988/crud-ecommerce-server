@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect, createContext } from "react";
+import Navbar from "./components/Navbar/Navbar";
+import Main from "./components/Main/Main";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export const UserContext = createContext();
+export const App = () => {
+    const [user, setUser] = useState(null);
 
-export default App;
+    useEffect(() => {
+        const isUserLoggedIn = localStorage.getItem("ecommerceToken");
+        const userDataEcommerce = localStorage.getItem("userDataEcommerce");
+        if (isUserLoggedIn && userDataEcommerce) {
+            const dataParsed = JSON.parse(userDataEcommerce);
+            setUser(dataParsed);
+        }
+    }, []);
+
+    const logOff = () => {
+        localStorage.removeItem("ecommerceToken");
+        localStorage.removeItem("userDataEcommerce");
+        setUser(null);
+    };
+    const logIn = (userData) => {
+        setUser(userData);
+    };
+    return (
+        <UserContext.Provider value={user}>
+            <Navbar logOff={logOff} logIn={logIn} />
+            <Main />
+        </UserContext.Provider>
+    );
+};

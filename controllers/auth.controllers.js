@@ -39,8 +39,8 @@ module.exports = {
                 const newUserIsSaved = await newUser.save();
                 res.send(newUserIsSaved);
             }
-        } catch (err) {
-            res.status(400).send(err);
+        } catch ({ message }) {
+            res.status(400).send({ message });
         }
     },
     loginUser: async (req, res) => {
@@ -62,9 +62,13 @@ module.exports = {
                 process.env.TOKEN_SECRET,
                 { expiresIn: "1d" }
             );
-            res.send({ accessToken });
-        } catch (err) {
-            res.send(400, err);
+            res.send({
+                accessToken,
+                email,
+                admin: storedUser.admin ? true : false,
+            });
+        } catch ({ message }) {
+            res.status(400).send({ message });
         }
     },
 };

@@ -43,9 +43,10 @@ module.exports = {
         const { id } = req.params;
         try {
             const brandIsDeleted = await Brands.destroy({ where: { id } });
+            if (!brandIsDeleted[0]) throw new Error("Brand doesn't exist");
             res.send({ message: "Brand deleted" });
-        } catch (err) {
-            res.status(400).send(err);
+        } catch ({ message }) {
+            res.status(400).send({ message });
         }
     },
     getProducts: async (req, res) => {
@@ -78,8 +79,8 @@ module.exports = {
             });
             const newProductsIsSaved = await newProduct.save();
             res.status(200).send(newProductsIsSaved);
-        } catch (err) {
-            res.status(400).send(err);
+        } catch ({ message }) {
+            res.status(400).send({ message });
         }
     },
     putProduct: async (req, res) => {
@@ -101,6 +102,8 @@ module.exports = {
             const deletedProduct = await Products.destroy({
                 where: { id: id },
             });
+            if (!deletedProduct[0])
+                throw new Error("The product doesn't exist.");
             res.send(deletedProduct);
         } catch (err) {
             res.status(400).send(err);

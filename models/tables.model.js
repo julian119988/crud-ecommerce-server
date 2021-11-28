@@ -64,7 +64,6 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0,
         },
     });
-    Brands.hasMany(Products);
     Products.belongsTo(Brands);
 
     return { Products, Brands, Users };
