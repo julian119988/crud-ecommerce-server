@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
                 required: true,
             },
             description: {
-                type: DataTypes.STRING,
+                type: DataTypes.STRING(512),
                 allowNull: false,
                 required: true,
             },

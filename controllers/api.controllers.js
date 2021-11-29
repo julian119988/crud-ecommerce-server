@@ -10,6 +10,20 @@ module.exports = {
             res.status(400).send(err);
         }
     },
+    getOneBrand: async (req, res) => {
+        const { id } = req.params;
+        try {
+            const brand = await Brands.findOne({
+                where: {
+                    id,
+                },
+            });
+            if (!brand) throw new Error("Brand doesn't exist.");
+            res.send(brand);
+        } catch ({ message }) {
+            res.status(400).send({ message });
+        }
+    },
     postBrand: async (req, res) => {
         const { name, logo_url } = req.body;
         try {
@@ -61,14 +75,13 @@ module.exports = {
         const { name, description, image_url, price, brand_id } = req.body;
         try {
             if (!name || !description || !image_url || !price || !brand_id)
-                throw new Error({ message: "Missing data" });
-            const brandExist = await Brands.findAll({
+                throw new Error("Missing data");
+            const brandExist = await Brands.findOne({
                 where: {
                     id: brand_id,
                 },
             });
-            if (!brandExist)
-                throw new Error({ message: "Brand doesn't exists" });
+            if (!brandExist) throw new Error("Brand doesn't exists");
             console.log(brandExist);
             const newProduct = await Products.create({
                 name,
@@ -80,7 +93,7 @@ module.exports = {
             const newProductsIsSaved = await newProduct.save();
             res.status(200).send(newProductsIsSaved);
         } catch ({ message }) {
-            res.status(400).send({ message });
+            res.status(400).send(message);
         }
     },
     putProduct: async (req, res) => {

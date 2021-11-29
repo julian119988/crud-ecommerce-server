@@ -40,6 +40,13 @@ export const TitleAndLayoutSelector = styled(motion.div)`
     padding-bottom: 2vh;
     border-radius: 5px;
     box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.3);
+    margin-bottom: 3vh;
+    max-width: 700px;
+    @media (min-width: 800px) {
+        width: 700px;
+        margin-right: auto;
+        margin-left: auto;
+    }
 `;
 
 export const SwitchInputDiv = styled(motion.div)`

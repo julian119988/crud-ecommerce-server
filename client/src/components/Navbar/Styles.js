@@ -61,7 +61,7 @@ export const LogOffButton = styled(motion.button)`
     cursor: pointer;
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: 5%;
+    margin-left: auto;
     @media (min-width: 600px) {
         margin-right: 10%;
     }

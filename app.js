@@ -5,6 +5,7 @@ const app = express();
 const cors = require("cors");
 const apiRoutes = require("./routes/api.routes");
 const authRoutes = require("./routes/auth.routes");
+const placeholderRoutes = require("./routes/placeholder.routes");
 const db = require("./models/index");
 const path = require("path");
 db.sequelize.sync();
@@ -16,10 +17,12 @@ app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.use("/api", apiRoutes);
 app.use("/auth", authRoutes);
+app.use("/load-placeholders", placeholderRoutes);
 app.use("*", (req, res, next) => {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
