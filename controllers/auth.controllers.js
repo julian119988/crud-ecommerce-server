@@ -8,12 +8,12 @@ module.exports = {
         const { authorization } = req.headers;
         try {
             if (!email || !password1 || !password2)
-                throw new Error({ message: "Some data is missing." });
+                throw new Error("Some data is missing.");
             if (password2 !== password1)
-                throw new Error({ message: "Passwords do not match." });
+                throw new Error("Passwords do not match.");
             if (!isEmailValid(email)) {
                 console.log("entro aca");
-                throw new Error({ message: "Email not properly formatted" });
+                throw new Error("Email not properly formatted");
             }
             const tokenWithOutBearer = authorization.replace(/^Bearer\s+/, "");
             const decriptedToken = jwt.verify(
@@ -46,14 +46,10 @@ module.exports = {
     loginUser: async (req, res) => {
         const { email, password } = req.body;
         try {
-            if (!email || !password)
-                throw new Error({ message: "Some data is missing." });
+            if (!email || !password) throw new Error("Some data is missing.");
             const storedUser = await Users.findOne({ where: { email } });
             const result = await bcrypt.compare(password, storedUser.password);
-            if (!result)
-                throw new Error({
-                    message: "Email or password were incorrect.",
-                });
+            if (!result) throw new Error("Email or password were incorrect.");
             const accessToken = jwt.sign(
                 {
                     email,

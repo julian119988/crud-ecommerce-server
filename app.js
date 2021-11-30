@@ -11,13 +11,12 @@ const path = require("path");
 db.sequelize.sync();
 
 var corsOptions = {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://192.168.1.40:3000"],
 };
 app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.use("/api", apiRoutes);

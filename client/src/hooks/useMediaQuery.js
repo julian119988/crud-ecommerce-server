@@ -18,3 +18,5 @@ const useMediaQuery = (query) => {
     return matches;
 };
 export const useIsSmall = () => useMediaQuery("(min-width: 480px)");
+
+export const useIsLandscape = () => useMediaQuery("(orientation: landscape)");

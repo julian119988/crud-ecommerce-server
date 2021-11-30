@@ -35,7 +35,7 @@ const ProductListOrGrid = ({ grid }) => {
                 products.map((product, index) => (
                     <ProductListItem
                         product={product}
-                        key={index + "products"}
+                        key={index + 100}
                         grid={grid}
                     />
                 ))

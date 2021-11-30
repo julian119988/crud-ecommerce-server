@@ -1,7 +1,8 @@
 const { tables } = require("../models/index");
-const { Products, Brands } = tables;
+const { Products, Brands, Users } = tables;
 const path = require("path");
 const axios = require("axios");
+const bcrypt = require("bcrypt");
 
 module.exports = {
     hardcodeDB: async (req, res) => {
@@ -11,32 +12,32 @@ module.exports = {
         const levis = path.join(commonPath, "levis.png");
         const underArmour = path.join(commonPath, "underArmour.png");
         const zara = path.join(commonPath, "sara.svg");
-
         try {
             const brands = await Brands.bulkCreate([
                 {
                     name: "Adidas",
-                    logo_url: adidas,
+                    logo_url:
+                        "https://1757140519.rsc.cdn77.org/blog/wp-content/uploads/sites/4/2020/04/the-4th-logo-1024x862.jpg",
                 },
                 {
                     name: "Gucci",
-                    logo_url: adidas,
+                    logo_url:
+                        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Gucci_logo.svg/1993px-Gucci_logo.svg.png",
                 },
                 {
                     name: "Levis",
-                    logo_url: levis,
+                    logo_url:
+                        "https://turbologo.com/articles/wp-content/uploads/2020/01/levis-primary-logo.png",
                 },
                 {
                     name: "Under Armour",
-                    logo_url: underArmour,
+                    logo_url:
+                        "https://logoeps.com/wp-content/uploads/2012/11/under-armour-black-vector-logo.png",
                 },
                 {
                     name: "Zara",
-                    logo_url: zara,
-                },
-                {
-                    name: "Gucci",
-                    logo_url: gucci,
+                    logo_url:
+                        "https://i.blogs.es/5b1edc/captura-de-pantalla-2020-04-01-a-las-17.53.58/1366_2000.png",
                 },
             ]);
 
@@ -48,14 +49,22 @@ module.exports = {
             const totalBrands = allBrands.length - 1;
             data.forEach(async ({ title, description, image, price }) => {
                 const product = await Products.create({
-                    name: title,
+                    name: title.substring(0, 30),
                     description: description.substring(0, 120),
                     image_url: image,
                     brand_id: randomBrandId(totalBrands, allBrands),
                     price,
                 });
+                product.save();
             });
-            res.send(data);
+            const hashedPassword = await bcrypt.hash("admin", 10);
+            const adminAccount = await Users.create({
+                email: "admin@admin.com",
+                password: hashedPassword,
+                admin: true,
+            });
+            adminAccount.save();
+            res.send({ message: "Data created successfully" });
         } catch (err) {
             res.status(400).send(err.message);
         }

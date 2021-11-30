@@ -70,5 +70,5 @@ export const SwitchLabel = styled(motion.label)`
     padding: 10px;
     border-radius: 5px 0 0 5px;
     ${(props) => props.right && "border-radius: 0 5px 5px 0;"}
-    font-size: 1.2rem;
+    font-size: 1.5rem;
 `;
