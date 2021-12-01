@@ -3,12 +3,13 @@ import { motion } from "framer-motion";
 
 export const Main = styled(motion.div)`
     display: flex;
-    position: absolute;
+    position: fixed;
     justify-content: center;
     align-items: center;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.4);
+    top: 0;
 `;
 
 export const Form = styled(motion.form)`
@@ -19,6 +20,7 @@ export const Form = styled(motion.form)`
     background-color: white;
     border-radius: 10px;
     padding: 5%;
+    max-width: 600px;
 `;
 
 export const Title = styled(motion.h2)`
@@ -39,4 +41,14 @@ export const SubmitButton = styled(motion.input)`
     margin-top: 1.5vh;
     font-size: 1.7rem;
     font-family: "Rubik", sans-serif;
+    width: 200px;
+    height: 35px;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    outline: none;
+    background-color: #333;
+    color: #d5d5d5;
+    border-radius: 10px;
+    cursor: pointer;
 `;

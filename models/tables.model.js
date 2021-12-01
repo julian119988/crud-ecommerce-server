@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0,
         },
     });
-    Products.belongsTo(Brands);
+    Products.belongsTo(Brands, { onDelete: "cascade", hooks: true });
 
     return { Products, Brands, Users };
 };

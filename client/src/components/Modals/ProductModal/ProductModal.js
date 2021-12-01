@@ -2,6 +2,8 @@ import { AnimatePresence } from "framer-motion";
 import { useIsLandscape } from "../../../hooks/useMediaQuery";
 import {
     AddOne,
+    AddToCart,
+    BrandImage,
     Container,
     Description,
     ImageContainer,
@@ -13,21 +15,34 @@ import {
     Title,
 } from "./Styles";
 import {
+    brandImageVariants,
     imageContainerVariants,
     infoContainerVariants,
 } from "./framerVariants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useStopScrolling from "../../../hooks/useStopScrolling";
+import CrossIcon from "./CrossIcon";
 
 const ProductModal = ({ show, toggleModal, product, brand }) => {
     const [quantity, setQuantity] = useState(1);
+    const [addToCartMO, setAddToCartMO] = useState(false);
     const isLandscape = useIsLandscape();
-
+    useStopScrolling(show);
     const addOne = () => {
         setQuantity(quantity + 1);
     };
     const removeOne = () => {
         if (quantity > 1) setQuantity(quantity - 1);
     };
+
+    useEffect(() => {
+        console.log(document.getElementById("crossIcon"));
+        // if (isLandscape) {
+        //     document.getElementById("crossIcon").style.fill = "#333";
+        // } else {
+        //     document.getElementById("crossIcon").style.fill = "#ececec";
+        // }
+    }, [isLandscape]);
 
     return (
         <>
@@ -38,7 +53,6 @@ const ProductModal = ({ show, toggleModal, product, brand }) => {
                     <Container key={1098652}>
                         <ImageContainer
                             key={109865}
-                            onClick={toggleModal}
                             variants={imageContainerVariants}
                             initial={
                                 isLandscape ? "landscapeStart" : "portraitStart"
@@ -96,7 +110,28 @@ const ProductModal = ({ show, toggleModal, product, brand }) => {
                                 </AddOne>
                                 <Price>{`$ ${product.price}`}</Price>
                             </PriceAndQuantityDiv>
+                            <BrandImage
+                                variants={brandImageVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                src={brand.logo_url}
+                                alt={product.name}
+                            />
+                            <AddToCart
+                                disabled
+                                onMouseOver={() => setAddToCartMO(true)}
+                                onMouseOut={() => setAddToCartMO(false)}
+                                addToCartMO={addToCartMO}
+                            >
+                                Add to Cart
+                            </AddToCart>
                         </InfoContainer>
+                        <CrossIcon
+                            toggleModal={toggleModal}
+                            isLandscape={isLandscape}
+                            color={isLandscape ? "#ececec" : "#333"}
+                        />
                     </Container>
                 )}
             </AnimatePresence>

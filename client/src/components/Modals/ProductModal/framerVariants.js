@@ -1,7 +1,6 @@
 export const imageContainerVariants = {
     transition: {
         type: "tween",
-        staggerChildren: 0.5,
     },
     portraitStart: {
         y: "-100vh",
@@ -23,7 +22,6 @@ export const imageContainerVariants = {
 export const infoContainerVariants = {
     transition: {
         type: "tween",
-        staggerChildren: 0.5,
     },
     portraitStart: {
         y: "100vh",
@@ -40,5 +38,20 @@ export const infoContainerVariants = {
     landscapeEnd: {
         y: "0vh",
         x: "0vw",
+    },
+};
+
+export const brandImageVariants = {
+    initial: {
+        opacity: 0,
+    },
+    animate: {
+        opacity: 1,
+        transition: {
+            delay: 0.4,
+        },
+    },
+    exit: {
+        opacity: 0,
     },
 };

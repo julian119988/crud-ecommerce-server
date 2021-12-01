@@ -15,10 +15,10 @@ import {
     mediaDivVariants,
     textAndPriceDivVariants,
 } from "./framerVariants";
-import { useIsSmall } from "../../../../hooks/useMediaQuery";
+import { useIsSmall } from "../../hooks/useMediaQuery";
 import axios from "axios";
 import { AnimatePresence } from "framer-motion";
-import ProductModal from "../../../Modals/ProductModal/ProductModal";
+import ProductModal from "../Modals/ProductModal/ProductModal";
 
 const ProductListItem = ({ grid, product }) => {
     const [brandInfo, setBrandInfo] = useState();
@@ -32,7 +32,7 @@ const ProductListItem = ({ grid, product }) => {
     };
 
     useEffect(() => {
-        getItemBrand();
+        getItemBrand(); // eslint-disable-next-line
     }, []);
 
     const getItemBrand = async () => {
@@ -40,7 +40,6 @@ const ProductListItem = ({ grid, product }) => {
             const { data } = await axios.get(
                 `http://localhost:8080/api/brand/${product.brand_id}`
             );
-            console.log(product);
             setBrandInfo(data);
         }
     };

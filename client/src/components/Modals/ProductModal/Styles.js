@@ -109,3 +109,57 @@ export const AddToCartAndLogoDiv = styled(motion.div)`
     display: flex;
     flex-direction: row;
 `;
+export const BrandImage = styled(motion.img)`
+    object-fit: contain;
+    width: 60px;
+    position: absolute;
+    top: -20%;
+    right: 5%;
+    @media (orientation: landscape) {
+        position: absolute;
+        top: 85%;
+        left: -20%;
+    }
+`;
+
+export const AddToCart = styled(motion.button)`
+    font-size: 1.5rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 10px;
+    height: 40px;
+    width: 150px;
+    margin-top: 10px;
+    background-color: #297cc6;
+    color: #ececec;
+    position: relative;
+    ${(props) =>
+        props.disabled && "cursor: not-allowed; background-color: gray"};
+    &:after {
+        content: "Coming soon!";
+        display: ${(props) => (props.addToCartMO ? "flex" : "none")};
+        width: 100px;
+        height: 30px;
+        position: absolute;
+        top: -40px;
+        left: 0px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        color: #ececec;
+        background-color: gray;
+    }
+    &:before {
+        content: "";
+        width: 11px;
+        height: 11px;
+        transform: rotate(45deg);
+        display: ${(props) => (props.addToCartMO ? "flex" : "none")};
+        position: absolute;
+        background-color: gray;
+        top: -17px;
+        left: 13px;
+    }
+`;

@@ -1,28 +1,14 @@
 import { ProductsDiv } from "./Styles";
-import { UserContext } from "../../../App";
-import { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import framerVariants from "./framerVariants";
-import ProductListItem from "./ProductListItem/ProductListItem";
-import { useIsSmall } from "../../../hooks/useMediaQuery";
+import { useContext } from "react";
+import { framerVariants } from "./framerVariants";
+import ProductListItem from "../ProductListItem/ProductListItem";
+import { useIsSmall } from "../../hooks/useMediaQuery";
+import { LoadProductContext } from "../../App";
 
 const ProductListOrGrid = ({ grid }) => {
-    const [products, setProducts] = useState([]);
+    const { products } = useContext(LoadProductContext);
     const isSmall = useIsSmall();
-    const user = useContext(UserContext);
-    useEffect(() => {
-        getProducts();
-    }, []);
-    const getProducts = async () => {
-        try {
-            const { data } = await axios.get(
-                "http://localhost:8080/api/products"
-            );
-            setProducts(data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+
     return (
         <ProductsDiv
             grid={grid}

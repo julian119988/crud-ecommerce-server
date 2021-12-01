@@ -56,8 +56,10 @@ module.exports = {
     deleteBrand: async (req, res) => {
         const { id } = req.params;
         try {
-            const brandIsDeleted = await Brands.destroy({ where: { id } });
-            if (!brandIsDeleted[0]) throw new Error("Brand doesn't exist");
+            const brandIsDeleted = await Brands.destroy({
+                where: { id: parseInt(id) },
+            });
+            if (!brandIsDeleted) throw new Error("Brand doesn't exist");
             res.send({ message: "Brand deleted" });
         } catch ({ message }) {
             res.status(400).send({ message });

@@ -1,4 +1,4 @@
-export default {
+export const framerVariants = {
     smallGrid: {
         display: "grid",
         gridGap: "10px",

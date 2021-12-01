@@ -1,12 +1,16 @@
 import { useState, useEffect, createContext } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Main from "./components/Main/Main";
+import axios from "axios";
 
 export const UserContext = createContext();
+export const LoadProductContext = createContext();
 export const App = () => {
     const [user, setUser] = useState(null);
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
+        getProducts();
         const isUserLoggedIn = localStorage.getItem("ecommerceToken");
         const userDataEcommerce = localStorage.getItem("userDataEcommerce");
         if (isUserLoggedIn && userDataEcommerce) {
@@ -14,6 +18,17 @@ export const App = () => {
             setUser(dataParsed);
         }
     }, []);
+
+    const getProducts = async () => {
+        try {
+            const { data } = await axios.get(
+                "http://localhost:8080/api/products"
+            );
+            setProducts(data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const logOff = () => {
         localStorage.removeItem("ecommerceToken");
@@ -25,8 +40,10 @@ export const App = () => {
     };
     return (
         <UserContext.Provider value={user}>
-            <Navbar logOff={logOff} logIn={logIn} />
-            <Main />
+            <LoadProductContext.Provider value={{ products, getProducts }}>
+                <Navbar logOff={logOff} logIn={logIn} />
+                <Main />
+            </LoadProductContext.Provider>
         </UserContext.Provider>
     );
 };

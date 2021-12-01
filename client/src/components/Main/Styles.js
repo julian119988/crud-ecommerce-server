@@ -72,3 +72,15 @@ export const SwitchLabel = styled(motion.label)`
     ${(props) => props.right && "border-radius: 0 5px 5px 0;"}
     font-size: 1.5rem;
 `;
+
+export const NewProductButton = styled(motion.button)`
+    background: #d5d5d5;
+    border: 2px solid #333;
+    box-sizing: border-box;
+    box-shadow: inset 0px 0px 26px -10px rgba(0, 0, 0, 0.88);
+    border-radius: 10px;
+    font-size: 1.5rem;
+    padding: 8px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+`;
