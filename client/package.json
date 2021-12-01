@@ -16,10 +16,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && move build ..",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "buildLinux": "react-scripts build && mv build .."
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
