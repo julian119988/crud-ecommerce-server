@@ -3,6 +3,7 @@ import { LogInButton, LogOffButton, Nav, Title, SignUpButton } from "./Styles";
 import FormModal from "../Modals/FormModal/FormModal";
 import axios from "axios";
 import { UserContext } from "../../App";
+import { defineUriByEnviroment } from "../../config";
 
 const Navbar = ({ logOff, logIn }) => {
     const user = useContext(UserContext);
@@ -15,7 +16,7 @@ const Navbar = ({ logOff, logIn }) => {
             const {
                 data: { accessToken, email, admin },
             } = await axios.post(
-                "http://localhost:8080/auth/loginUser",
+                `${defineUriByEnviroment()}/auth/loginUser`,
                 formData
             );
             localStorage.setItem("ecommerceToken", accessToken);

@@ -62,10 +62,9 @@ export const ButtonsDiv = styled(motion.div)`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min-content, 100px));
     justify-content: center;
-    max-width: 320px;
+    max-width: 310px;
     align-items: center;
-    grid-gap: 10px;
-    margin-top: 10px;
+    grid-gap: 5px;
     @media (min-width: 500px) {
         margin-left: auto;
     }

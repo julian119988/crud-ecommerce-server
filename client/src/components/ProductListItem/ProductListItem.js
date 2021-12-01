@@ -19,6 +19,7 @@ import { useIsSmall } from "../../hooks/useMediaQuery";
 import axios from "axios";
 import { AnimatePresence } from "framer-motion";
 import ProductModal from "../Modals/ProductModal/ProductModal";
+import { defineUriByEnviroment } from "../../config";
 
 const ProductListItem = ({ grid, product }) => {
     const [brandInfo, setBrandInfo] = useState();
@@ -38,7 +39,7 @@ const ProductListItem = ({ grid, product }) => {
     const getItemBrand = async () => {
         if (product) {
             const { data } = await axios.get(
-                `http://localhost:8080/api/brand/${product.brand_id}`
+                `${defineUriByEnviroment()}/api/brand/${product.brand_id}`
             );
             setBrandInfo(data);
         }

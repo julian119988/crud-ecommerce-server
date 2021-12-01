@@ -16,6 +16,7 @@ import FormModal from "../Modals/FormModal/FormModal";
 import { LoadProductContext } from "../../App";
 import axios from "axios";
 import BrandBar from "../BrandBar/BrandBar";
+import { defineUriByEnviroment } from "../../config";
 
 const Main = () => {
     const [layout, setLayout] = useState("column");
@@ -31,16 +32,22 @@ const Main = () => {
         getBrands();
     }, [user]);
     const getBrands = async () => {
-        const { data } = await axios.get("http://localhost:8080/api/brands");
+        const { data } = await axios.get(
+            `${defineUriByEnviroment()}/api/brands`
+        );
         if (data) setBrands(data);
     };
     const handleNewProduct = async (product) => {
         try {
-            await axios.post("http://localhost:8080/api/products", product, {
-                headers: {
-                    authorization: `Bearer ${user.accessToken}`,
-                },
-            });
+            await axios.post(
+                `${defineUriByEnviroment()}/api/products`,
+                product,
+                {
+                    headers: {
+                        authorization: `Bearer ${user.accessToken}`,
+                    },
+                }
+            );
             getProducts();
         } catch (err) {
             console.log(err.message);

@@ -64,17 +64,21 @@ const FormModal = ({
                         onSubmit={handleSubmit}
                     >
                         <Title>{title}</Title>
-                        {body.map(
-                            ({ type, name, placeholder, required }, index) => (
-                                <Input
-                                    type={type}
-                                    name={name}
-                                    placeholder={placeholder}
-                                    required={required}
-                                    key={index}
-                                />
-                            )
-                        )}
+                        {body &&
+                            body.map(
+                                (
+                                    { type, name, placeholder, required },
+                                    index
+                                ) => (
+                                    <Input
+                                        type={type}
+                                        name={name}
+                                        placeholder={placeholder}
+                                        required={required}
+                                        key={index}
+                                    />
+                                )
+                            )}
 
                         {options && (
                             <select>

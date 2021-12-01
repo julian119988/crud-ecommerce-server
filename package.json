@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js && cd client && npm start ",
+    "start": "set NODE_ENV=production && nodemon index.js",
     "build": "cd client && npm install && npm run build",
-    "dev": "concurrently \"nodemon index.js\" \"cd client && npm start\""
+    "dev": "set NODE_ENV=development && nodemon index.js"
   },
   "keywords": [],
   "author": "",

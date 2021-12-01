@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Main from "./components/Main/Main";
+import { defineUriByEnviroment } from "./config";
 import axios from "axios";
 
 export const UserContext = createContext();
@@ -9,6 +10,7 @@ export const App = () => {
     const [user, setUser] = useState(null);
     const [products, setProducts] = useState([]);
 
+    console.log(process.env);
     useEffect(() => {
         getProducts();
         const isUserLoggedIn = localStorage.getItem("ecommerceToken");
@@ -22,7 +24,7 @@ export const App = () => {
     const getProducts = async () => {
         try {
             const { data } = await axios.get(
-                "http://localhost:8080/api/products"
+                `${defineUriByEnviroment()}/api/products`
             );
             setProducts(data);
         } catch (err) {
