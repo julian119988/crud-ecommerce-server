@@ -11,9 +11,13 @@ const path = require("path");
 db.sequelize.sync();
 
 var corsOptions = {
-    origin: ["http://localhost:3000", "http://192.168.1.40:3000"],
+    origin: [
+        "http://localhost:3000",
+        "http://192.168.1.40:3000",
+        "https://crud-ecommerce-server.vercel.app",
+    ],
 };
-app.use(cors("*"));
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
