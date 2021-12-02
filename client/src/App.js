@@ -10,7 +10,6 @@ export const App = () => {
     const [user, setUser] = useState(null);
     const [products, setProducts] = useState([]);
 
-    console.log(process.env);
     useEffect(() => {
         getProducts();
         const isUserLoggedIn = localStorage.getItem("ecommerceToken");
