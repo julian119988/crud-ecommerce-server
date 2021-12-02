@@ -10,6 +10,7 @@ export const Main = styled(motion.div)`
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.4);
     top: 0;
+    z-index: 100;
 `;
 
 export const Form = styled(motion.form)`
@@ -51,4 +52,9 @@ export const SubmitButton = styled(motion.input)`
     color: #d5d5d5;
     border-radius: 10px;
     cursor: pointer;
+`;
+
+export const Label = styled(motion.label)`
+    font-size: 1.5rem;
+    margin-top: 5px;
 `;

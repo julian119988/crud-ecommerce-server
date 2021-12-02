@@ -10,24 +10,27 @@ import {
     NewProductButton,
 } from "./Styles";
 import { labelVariants } from "./mainVariants";
-import ProductsDiv from "../ProductListOrGrid/ProductListOrGrid";
+import ProductListOrGrid from "../ProductListOrGrid/ProductListOrGrid";
 import { UserContext } from "../../App";
 import FormModal from "../Modals/FormModal/FormModal";
 import { LoadProductContext } from "../../App";
 import axios from "axios";
 import BrandBar from "../BrandBar/BrandBar";
 import { defineUriByEnviroment } from "../../config";
+import UsersBar from "../UsersBar/UsersBar";
 
 const Main = () => {
     const [layout, setLayout] = useState("column");
     const [isAdmin, setIsAdmin] = useState(false);
     const [showNewProductForm, setShowNewProductForm] = useState(false);
     const [brands, setBrands] = useState();
-    const user = useContext(UserContext);
     const { getProducts } = useContext(LoadProductContext);
+    const user = useContext(UserContext);
     useEffect(() => {
         if (user) {
             setIsAdmin(user.admin);
+        } else {
+            setIsAdmin(false);
         }
         getBrands();
     }, [user]);
@@ -55,6 +58,7 @@ const Main = () => {
     };
 
     const toggleNewProductForm = () => {
+        getBrands();
         setShowNewProductForm(!showNewProductForm);
     };
     return (
@@ -81,6 +85,7 @@ const Main = () => {
                                 }
                                 variants={labelVariants}
                                 whileHover={layout === "column" ? "" : "hover"}
+                                key={15}
                             >
                                 Column
                             </SwitchLabel>
@@ -91,6 +96,7 @@ const Main = () => {
                                 defaultChecked
                                 id="column"
                                 onChange={() => setLayout("column")}
+                                key={16}
                             />
                             <SwitchLabel
                                 right
@@ -100,6 +106,7 @@ const Main = () => {
                                 }
                                 variants={labelVariants}
                                 whileHover={layout === "grid" ? "" : "hover"}
+                                key={17}
                             >
                                 Grid
                             </SwitchLabel>
@@ -109,11 +116,15 @@ const Main = () => {
                                 id="grid"
                                 name="layout-selector"
                                 onChange={() => setLayout("grid")}
+                                key={18}
                             />
                         </SwitchInputDiv>
                     </TitleAndLayoutSelector>
                     {isAdmin && <BrandBar />}
-                    <ProductsDiv grid={layout === "grid" ? true : false} />
+                    {isAdmin && <UsersBar />}
+                    <ProductListOrGrid
+                        grid={layout === "grid" ? true : false}
+                    />
                 </ProductSection>
             </MainDiv>
             <FormModal

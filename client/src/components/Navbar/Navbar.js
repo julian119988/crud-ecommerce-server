@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LogInButton, LogOffButton, Nav, Title, SignUpButton } from "./Styles";
 import FormModal from "../Modals/FormModal/FormModal";
 import axios from "axios";
@@ -6,8 +6,13 @@ import { UserContext } from "../../App";
 import { defineUriByEnviroment } from "../../config";
 
 const Navbar = ({ logOff, logIn }) => {
-    const user = useContext(UserContext);
     const [openLogInModal, setOpenLogInModal] = useState(false);
+    const [showSignUpModal, setShowSignUpModal] = useState(false);
+    const [isUser, setIsUser] = useState(null);
+    const user = useContext(UserContext);
+    useEffect(() => {
+        setIsUser(user);
+    }, [user]);
     const toggleLogInModal = () => {
         setOpenLogInModal(!openLogInModal);
     };
@@ -34,10 +39,37 @@ const Navbar = ({ logOff, logIn }) => {
     const handleLogOff = async () => {
         logOff();
     };
+    const toggleSignUpModal = () => {
+        setShowSignUpModal(!showSignUpModal);
+    };
+    const handleSignUp = async (body) => {
+        const {
+            data: { accessToken, email, admin },
+        } = await signUp(body);
+        localStorage.setItem("ecommerceToken", accessToken);
+        localStorage.setItem(
+            "userDataEcommerce",
+            JSON.stringify({ email, admin, accessToken })
+        );
+        logIn({ accessToken, email, admin });
+    };
+
+    const signUp = async (body) => {
+        try {
+            const response = await axios.post(
+                `${defineUriByEnviroment()}/auth/signUp`,
+                body
+            );
+            return response;
+        } catch (err) {
+            console.log(err);
+            return null;
+        }
+    };
     return (
         <Nav>
             <Title>Ecommerce App</Title>
-            {user ? (
+            {isUser ? (
                 <>
                     <LogOffButton
                         exit={{ opacity: 0 }}
@@ -77,6 +109,7 @@ const Navbar = ({ logOff, logIn }) => {
                         exit={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         initial={{ opacity: 0 }}
+                        onClick={toggleSignUpModal}
                     >
                         Sign Up
                     </SignUpButton>
@@ -89,6 +122,14 @@ const Navbar = ({ logOff, logIn }) => {
                 body={logInBody}
                 submitButtonText={"Log in"}
                 getFormData={handleLogIn}
+            />
+            <FormModal
+                isVisible={showSignUpModal}
+                toggleModal={toggleSignUpModal}
+                title="Sign up"
+                body={signUpBody}
+                submitButtonText={"Sign up"}
+                getFormData={handleSignUp}
             />
         </Nav>
     );
@@ -105,6 +146,26 @@ const logInBody = [
         type: "password",
         name: "password",
         placeholder: "**********",
+        required: true,
+    },
+];
+const signUpBody = [
+    {
+        type: "email",
+        name: "email",
+        placeholder: "email@email.com",
+        required: true,
+    },
+    {
+        type: "password",
+        name: "password1",
+        placeholder: "********",
+        required: true,
+    },
+    {
+        type: "password",
+        name: "password2",
+        placeholder: "********",
         required: true,
     },
 ];

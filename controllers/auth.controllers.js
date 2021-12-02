@@ -3,24 +3,50 @@ const { Users } = tables;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 module.exports = {
-    addUser: async (req, res) => {
+    signUp: async (req, res) => {
         const { email, password1, password2, admin } = req.body;
-        const { authorization } = req.headers;
         try {
             if (!email || !password1 || !password2)
                 throw new Error("Some data is missing.");
             if (password2 !== password1)
                 throw new Error("Passwords do not match.");
             if (!isEmailValid(email)) {
-                console.log("entro aca");
                 throw new Error("Email not properly formatted");
             }
-            const tokenWithOutBearer = authorization.replace(/^Bearer\s+/, "");
-            const decriptedToken = jwt.verify(
-                tokenWithOutBearer,
-                process.env.TOKEN_SECRET
+            const hashedPassword = await bcrypt.hash(password1, 10);
+            const newUser = await Users.create({
+                email,
+                password: hashedPassword,
+                password2,
+            });
+            const newUserIsSaved = await newUser.save();
+            const accessToken = jwt.sign(
+                {
+                    email,
+                    admin: false,
+                },
+                process.env.TOKEN_SECRET,
+                { expiresIn: "1d" }
             );
-            if (!decriptedToken.admin) throw new Error("Not allowed.");
+            res.send({
+                admin: newUserIsSaved.admin,
+                email: newUserIsSaved.email,
+                accessToken,
+            });
+        } catch ({ message }) {
+            res.status(400).send({ message });
+        }
+    },
+    addAdminUser: async (req, res) => {
+        const { email, password1, password2, admin } = req.body;
+        try {
+            if (!email || !password1 || !password2)
+                throw new Error("Some data is missing.");
+            if (password2 !== password1)
+                throw new Error("Passwords do not match.");
+            if (!isEmailValid(email)) {
+                throw new Error("Email not properly formatted");
+            }
             const hashedPassword = await bcrypt.hash(password1, 10);
             if (admin) {
                 const newUser = await Users.create({
@@ -63,6 +89,28 @@ module.exports = {
                 email,
                 admin: storedUser.admin ? true : false,
             });
+        } catch ({ message }) {
+            res.status(400).send({ message });
+        }
+    },
+    getUsers: async (req, res) => {
+        try {
+            const allUsers = await Users.findAll();
+            res.send(allUsers);
+        } catch (err) {
+            res.status(400).send({ message });
+        }
+    },
+    deleteUser: async (req, res) => {
+        const { id } = req.params;
+        try {
+            const isUserDeleted = await Users.destroy({
+                where: {
+                    id: parseInt(id),
+                },
+            });
+            if (!isUserDeleted) throw new Error("Brand doesn't exist");
+            res.send({ message: "User deleted successfully" });
         } catch ({ message }) {
             res.status(400).send({ message });
         }

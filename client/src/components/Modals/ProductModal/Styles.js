@@ -10,6 +10,7 @@ export const Container = styled(motion.div)`
     background-color: transparent;
     display: flex;
     flex-direction: column;
+    z-index: 100;
     @media (orientation: landscape) {
         flex-direction: row;
     }
@@ -97,6 +98,8 @@ export const Quantity = styled(motion.h4)`
     margin-right: 15px;
     color: #ececec;
     font-size: 2.2rem;
+    min-width: 24px;
+    text-align: center;
 `;
 
 export const PriceAndQuantityDiv = styled(motion.div)`

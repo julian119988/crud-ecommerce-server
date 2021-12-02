@@ -8,7 +8,7 @@ export const UserContext = createContext();
 export const LoadProductContext = createContext();
 export const App = () => {
     const [user, setUser] = useState(null);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState(null);
 
     useEffect(() => {
         getProducts();

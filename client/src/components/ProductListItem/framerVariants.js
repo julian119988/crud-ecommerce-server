@@ -125,3 +125,26 @@ export const brandLogoVariant = {
         marginBottom: "15px",
     },
 };
+
+export const adminButtonsVariant = {
+    smallGrid: {
+        top: "40%",
+        left: "20%",
+        width: "90px",
+    },
+    smallColumn: {
+        top: "70%",
+        left: "5%",
+        width: "90px",
+    },
+    bigGrid: {
+        top: "50%",
+        left: "20%",
+        width: "150px",
+    },
+    bigColumn: {
+        top: "70%",
+        left: "5%",
+        width: "115px",
+    },
+};

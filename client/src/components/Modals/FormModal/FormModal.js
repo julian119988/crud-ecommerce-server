@@ -1,4 +1,4 @@
-import { Main, Form, Title, Input, SubmitButton } from "./Styles";
+import { Main, Form, Title, Input, SubmitButton, Label } from "./Styles";
 import { AnimatePresence } from "framer-motion";
 import { mainVariants, formVariants } from "./framerVariants";
 import { useRef } from "react";
@@ -44,6 +44,10 @@ const FormModal = ({
         );
         return obj;
     };
+    const capitalize = (string) => {
+        if (typeof string !== "string") return "";
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
 
     return (
         <AnimatePresence>
@@ -67,24 +71,47 @@ const FormModal = ({
                         {body &&
                             body.map(
                                 (
-                                    { type, name, placeholder, required },
+                                    {
+                                        type,
+                                        name,
+                                        placeholder,
+                                        required,
+                                        defaultValue,
+                                    },
                                     index
                                 ) => (
-                                    <Input
-                                        type={type}
-                                        name={name}
-                                        placeholder={placeholder}
-                                        required={required}
-                                        key={index}
-                                    />
+                                    <>
+                                        <Label>{capitalize(name)}</Label>
+                                        <Input
+                                            type={type}
+                                            name={name}
+                                            placeholder={placeholder}
+                                            required={required}
+                                            key={index}
+                                            defaultValue={
+                                                defaultValue ? defaultValue : ""
+                                            }
+                                        />
+                                    </>
                                 )
                             )}
 
                         {options && (
-                            <select>
+                            <select
+                                style={{
+                                    fontSize: "1.5rem",
+                                    marginTop: "10px",
+                                    marginBottom: "10px",
+                                    fontFamily: "'Rubik',sans-serif",
+                                }}
+                            >
                                 {options.map((item, index) => (
-                                    <option key={index + 456765} id={item.id}>
-                                        {item.name}
+                                    <option
+                                        key={index + 456765}
+                                        id={item.id}
+                                        style={{ fontSize: "1.3rem" }}
+                                    >
+                                        {item.name || item.email}
                                     </option>
                                 ))}
                             </select>

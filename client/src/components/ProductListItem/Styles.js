@@ -9,6 +9,8 @@ export const Container = styled(motion.div)`
     margin-right: auto;
     display: flex;
     cursor: pointer;
+    position: relative;
+    z-index: 1;
 `;
 
 export const ImageThumbnail = styled(motion.img)`
@@ -53,5 +55,45 @@ export const Price = styled(motion.h2)`
     margin-top: auto;
     @media (min-width: 480px) {
         font-size: 2.5rem;
+    }
+`;
+
+export const AdminButtonsDiv = styled(motion.div)`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+`;
+export const EditButton = styled(motion.button)`
+    width: 40px;
+    height: 30px;
+    background: #2f2fff;
+    opacity: 0.6;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-size: 1.3rem;
+    @media (min-width: 480px) {
+        height: 35px;
+        width: 50px;
+        font-size: 1.5rem;
+    }
+`;
+export const DeleteButton = styled(motion.button)`
+    height: 30px;
+    width: 40px;
+    background: #ff2323;
+    opacity: 0.8;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    font-size: 1.3rem;
+    @media (min-width: 480px) {
+        height: 35px;
+        width: 50px;
+        font-size: 1.5rem;
     }
 `;

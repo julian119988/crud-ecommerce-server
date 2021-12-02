@@ -19,7 +19,7 @@ import {
     imageContainerVariants,
     infoContainerVariants,
 } from "./framerVariants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useStopScrolling from "../../../hooks/useStopScrolling";
 import CrossIcon from "./CrossIcon";
 
@@ -34,15 +34,6 @@ const ProductModal = ({ show, toggleModal, product, brand }) => {
     const removeOne = () => {
         if (quantity > 1) setQuantity(quantity - 1);
     };
-
-    useEffect(() => {
-        console.log(document.getElementById("crossIcon"));
-        // if (isLandscape) {
-        //     document.getElementById("crossIcon").style.fill = "#333";
-        // } else {
-        //     document.getElementById("crossIcon").style.fill = "#ececec";
-        // }
-    }, [isLandscape]);
 
     return (
         <>

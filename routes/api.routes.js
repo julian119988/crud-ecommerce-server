@@ -10,17 +10,17 @@ const {
     deleteBrand,
     getOneBrand,
 } = require("../controllers/api.controllers");
-const { isAuthorized } = require("../middlewares/auth.middlewares");
+const { isAuthorized, isAdmin } = require("../middlewares/auth.middlewares");
 
 router.get("/products", getProducts);
-router.post("/products", isAuthorized, postProduct);
-router.put("/products/:id", isAuthorized, putProduct);
-router.delete("/products/:id", isAuthorized, deleteProduct);
+router.post("/products", isAdmin, postProduct);
+router.put("/products/:id", isAdmin, putProduct);
+router.delete("/products/:id", isAdmin, deleteProduct);
 
 router.get("/brands", getBrands);
 router.get("/brand/:id", getOneBrand);
-router.post("/brands", isAuthorized, postBrand);
-router.put("/brands/:id", isAuthorized, putBrand);
-router.delete("/brands/:id", isAuthorized, deleteBrand);
+router.post("/brands", isAdmin, postBrand);
+router.put("/brands/:id", isAdmin, putBrand);
+router.delete("/brands/:id", isAdmin, deleteBrand);
 
 module.exports = router;

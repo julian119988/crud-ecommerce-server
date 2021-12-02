@@ -12,8 +12,6 @@ export const MainDiv = styled(motion.main)`
     background-size: auto;
     background-origin: padding-box;
     background-clip: border-box;
-    padding-right: 5%;
-    padding-left: 5%;
     min-height: 88vh;
 `;
 
@@ -42,7 +40,7 @@ export const TitleAndLayoutSelector = styled(motion.div)`
     box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.3);
     margin-bottom: 3vh;
     max-width: 700px;
-    @media (min-width: 800px) {
+    @media (min-width: 700px) {
         width: 700px;
         margin-right: auto;
         margin-left: auto;

@@ -11,9 +11,14 @@ const db = require("./models/index");
 db.sequelize.sync();
 
 var corsOptions = {
-    origin: ["http://localhost:3000", "http://192.168.1.40:3000"],
+    origin: [
+        "http://localhost:3000",
+        "http://192.168.1.40:3000",
+        "http://ec2-18-223-2-137.us-east-2.compute.amazonaws.com:8080/",
+        "http://18.223.2.137:8080/",
+    ],
 };
-app.use(cors("*"));
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
