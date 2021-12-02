@@ -14,12 +14,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     },
 });
 
-console.log({
-    host: dbConfig.HOST,
-    NAME: dbConfig.DB,
-    USER: dbConfig.USER,
-    PASS: dbConfig.PASSWORD,
-});
+console.log(dbConfig);
 const db = {};
 
 db.Sequelize = Sequelize;
