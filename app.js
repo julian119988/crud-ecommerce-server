@@ -1,3 +1,4 @@
+const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 const express = require("express");
 const morgan = require("morgan");
@@ -7,7 +8,6 @@ const apiRoutes = require("./routes/api.routes");
 const authRoutes = require("./routes/auth.routes");
 const placeholderRoutes = require("./routes/placeholder.routes");
 const db = require("./models/index");
-const path = require("path");
 db.sequelize.sync();
 console.log(process.env);
 
