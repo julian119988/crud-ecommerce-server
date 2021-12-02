@@ -1,11 +1,23 @@
 module.exports = {
-    HOST: process.env.DB_HOST,
+    HOST:
+        process.NODE_ENV === "production"
+            ? process.env.DB_HOST
+            : process.env.DB_HOST_LOCAL,
 
-    USER: process.env.DB_USER,
+    USER:
+        process.NODE_ENV === "production"
+            ? process.env.DB_USER
+            : process.env.DB_USER_LOCAL,
 
-    PASSWORD: process.env.DB_PASS,
+    PASSWORD:
+        process.NODE_ENV === "production"
+            ? process.env.DB_PASS
+            : process.env.DB_PASS_LOCAL,
 
-    DB: process.env.DB_NAME,
+    DB:
+        process.NODE_ENV === "production"
+            ? process.env.DB_NAME
+            : process.env.DB_NAME_LOCAL,
 
     dialect: "mysql",
 
