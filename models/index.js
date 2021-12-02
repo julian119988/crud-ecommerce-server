@@ -14,7 +14,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     },
 });
 
-console.log(process.NODE_ENV === "production", process.NODE_ENV);
+console.log(process.env.NODE_ENV === "production", process.env.NODE_ENV);
 const db = {};
 
 db.Sequelize = Sequelize;
