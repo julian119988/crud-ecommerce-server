@@ -9,6 +9,7 @@ const placeholderRoutes = require("./routes/placeholder.routes");
 const db = require("./models/index");
 const path = require("path");
 db.sequelize.sync();
+console.log(process.env);
 
 var corsOptions = {
     origin: ["http://localhost:3000", "http://192.168.1.40:3000"],
