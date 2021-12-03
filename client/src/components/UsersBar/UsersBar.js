@@ -8,9 +8,8 @@ import {
 } from "./Styles";
 import { UserContext } from "../../App";
 import FormModal from "../Modals/FormModal/FormModal";
-import axios from "axios";
-import { defineUriByEnviroment } from "../../config";
 import { useContext, useEffect, useState } from "react";
+import { deleteUser, getAllUsers, postAdminUser } from "../../helper/api";
 
 const UsersBar = () => {
     const [showNewUserModal, setShowNewUserModal] = useState(false);
@@ -27,59 +26,16 @@ const UsersBar = () => {
     };
     const toggleShowDeleteUserModal = async () => {
         setShowDeleteUserModal(!showDeleteUserModal);
-        const users = await getAllUsers();
+        const users = await getAllUsers(isUser.accessToken);
         setAllUsers(users);
     };
     const handleNewUser = async (data) => {
         await postAdminUser(data);
     };
     const handleDeleteUser = async (body) => {
-        try {
-            const { data } = await axios.delete(
-                `${defineUriByEnviroment()}/auth/user/${body.brand_id}`,
-                {
-                    headers: {
-                        authorization: `Bearer ${user.accessToken}`,
-                    },
-                }
-            );
-            console.log(data);
-        } catch (err) {
-            console.log(err);
-        }
+        await deleteUser(body, isUser.accessToken);
     };
 
-    const postAdminUser = async (body) => {
-        body["admin"] = true;
-        try {
-            await axios.post(
-                `${defineUriByEnviroment()}/auth/addAdminUser`,
-                body,
-                {
-                    headers: {
-                        authorization: `Bearer ${isUser.accessToken}`,
-                    },
-                }
-            );
-        } catch (err) {
-            console.log(err);
-        }
-    };
-    const getAllUsers = async () => {
-        try {
-            const { data } = await axios.get(
-                `${defineUriByEnviroment()}/auth/allUsers`,
-                {
-                    headers: {
-                        authorization: `Bearer ${isUser.accessToken}`,
-                    },
-                }
-            );
-            return data;
-        } catch (err) {
-            console.log(err);
-        }
-    };
     return (
         <AnimatePresence>
             <UsersDiv>

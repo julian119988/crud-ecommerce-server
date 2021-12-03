@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { LogInButton, LogOffButton, Nav, Title, SignUpButton } from "./Styles";
 import FormModal from "../Modals/FormModal/FormModal";
-import axios from "axios";
 import { UserContext } from "../../App";
-import { defineUriByEnviroment } from "../../config";
+import { logIn, signUp } from "../../helper/api";
 
-const Navbar = ({ logOff, logIn }) => {
+const Navbar = ({ handleLogOff, handleLogIn }) => {
     const [openLogInModal, setOpenLogInModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
     const [isUser, setIsUser] = useState(null);
@@ -16,56 +15,41 @@ const Navbar = ({ logOff, logIn }) => {
     const toggleLogInModal = () => {
         setOpenLogInModal(!openLogInModal);
     };
-    const handleLogIn = async (formData) => {
-        try {
-            const {
-                data: { accessToken, email, admin },
-            } = await axios.post(
-                `${defineUriByEnviroment()}/auth/loginUser`,
-                formData
-            );
+    const handleModalLogIn = async (formData) => {
+        const data = await logIn(formData);
+        if (data !== null) {
+            const { accessToken, email, admin } = data;
             localStorage.setItem("ecommerceToken", accessToken);
             localStorage.setItem(
                 "userDataEcommerce",
                 JSON.stringify({ email, admin, accessToken })
             );
-            logIn({ email, admin, accessToken });
+            handleLogIn({ email, admin, accessToken });
             toggleLogInModal();
-        } catch (error) {
-            console.log(error);
+        } else {
+            alert("Error en el log in");
         }
     };
 
-    const handleLogOff = async () => {
-        logOff();
+    const handleClickLogOff = async () => {
+        handleLogOff();
     };
     const toggleSignUpModal = () => {
         setShowSignUpModal(!showSignUpModal);
     };
     const handleSignUp = async (body) => {
-        const {
-            data: { accessToken, email, admin },
-        } = await signUp(body);
-        localStorage.setItem("ecommerceToken", accessToken);
-        localStorage.setItem(
-            "userDataEcommerce",
-            JSON.stringify({ email, admin, accessToken })
-        );
-        logIn({ accessToken, email, admin });
-    };
-
-    const signUp = async (body) => {
-        try {
-            const response = await axios.post(
-                `${defineUriByEnviroment()}/auth/signUp`,
-                body
+        const response = await signUp(body);
+        if (response !== null) {
+            const { accessToken, email, admin } = response;
+            localStorage.setItem("ecommerceToken", accessToken);
+            localStorage.setItem(
+                "userDataEcommerce",
+                JSON.stringify({ email, admin, accessToken })
             );
-            return response;
-        } catch (err) {
-            console.log(err);
-            return null;
+            handleLogIn({ accessToken, email, admin });
         }
     };
+
     return (
         <Nav>
             <Title>Ecommerce App</Title>
@@ -80,7 +64,7 @@ const Navbar = ({ logOff, logIn }) => {
                             boxShadow:
                                 "0px 0px 14px 0px rgba(255,255,255,0.85)",
                         }}
-                        onClick={handleLogOff}
+                        onClick={handleClickLogOff}
                     >
                         Log off
                     </LogOffButton>
@@ -121,7 +105,7 @@ const Navbar = ({ logOff, logIn }) => {
                 title="Log in"
                 body={logInBody}
                 submitButtonText={"Log in"}
-                getFormData={handleLogIn}
+                getFormData={handleModalLogIn}
             />
             <FormModal
                 isVisible={showSignUpModal}

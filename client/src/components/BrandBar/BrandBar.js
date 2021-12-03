@@ -10,90 +10,48 @@ import { AnimatePresence } from "framer-motion";
 import { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import FormModal from "../Modals/FormModal/FormModal";
-import axios from "axios";
-import { defineUriByEnviroment } from "../../config";
 import { LoadProductContext } from "../../App";
+import { deleteBrand, getBrands, postBrand, putBrand } from "../../helper/api";
 const BrandBar = () => {
     const [showModalAddBrand, setShowModalAddBrand] = useState(false);
     const [showModalEditBrand, setShowModalEditBrand] = useState(false);
     const [showModalDeleteBrand, setShowModalDeleteBrand] = useState(false);
     const [brands, setBrands] = useState([]);
-    const { getProducts } = useContext(LoadProductContext);
+    const { refreshProducts } = useContext(LoadProductContext);
     const user = useContext(UserContext);
 
-    const handleAddBrand = (data) => {
-        postBrand(data);
-        getProducts();
+    const handleAddBrand = async (data) => {
+        await postBrand(data, user.accessToken);
+        refreshProducts();
     };
 
     const toggleShowModalAddBrand = () => {
         setShowModalAddBrand(!showModalAddBrand);
     };
 
-    const getBrands = async () => {
-        const { data } = await axios.get(
-            `${defineUriByEnviroment()}/api/brands`
-        );
+    const handleGetBrands = async () => {
+        const data = await getBrands();
         if (data) setBrands(data);
     };
-    const postBrand = async (body) => {
-        try {
-            await axios.post(`${defineUriByEnviroment()}/api/brands`, body, {
-                headers: {
-                    authorization: `Bearer ${user.accessToken}`,
-                },
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
-    const putBrand = async (body) => {
-        try {
-            await axios.put(
-                `${defineUriByEnviroment()}/api/brands/${body.brand_id}`,
-                body,
-                {
-                    headers: {
-                        authorization: `Bearer ${user.accessToken}`,
-                    },
-                }
-            );
-        } catch (err) {
-            console.log(err);
-        }
-    };
     const toggleShowModalEditBrand = () => {
-        if (!showModalEditBrand) getBrands();
+        if (!showModalEditBrand) handleGetBrands();
         setShowModalEditBrand(!showModalEditBrand);
     };
     const handleEditBrand = async (data) => {
-        await putBrand(data);
-        await getProducts();
+        await putBrand(data, user.accessToken);
+        await refreshProducts();
     };
 
     const toggleShowModalDeleteBrand = () => {
-        if (!showModalDeleteBrand) getBrands();
+        if (!showModalDeleteBrand) handleGetBrands();
         setShowModalDeleteBrand(!showModalDeleteBrand);
     };
     const handleDeleteBrand = async (data) => {
-        await deleteBrand(data);
-        await getProducts();
+        await deleteBrand(data, user.accessToken);
+        await refreshProducts();
     };
-    const deleteBrand = async (body) => {
-        try {
-            await axios.delete(
-                `${defineUriByEnviroment()}/api/brands/${body.brand_id}`,
-                {
-                    headers: {
-                        authorization: `Bearer ${user.accessToken}`,
-                    },
-                }
-            );
-        } catch (err) {
-            console.log(err);
-        }
-    };
+
     return (
         <AnimatePresence>
             <BrandDiv>

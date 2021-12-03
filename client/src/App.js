@@ -1,8 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Main from "./components/Main/Main";
-import { defineUriByEnviroment } from "./config";
-import axios from "axios";
+import { getProducts } from "./helper/api";
 
 export const UserContext = createContext();
 export const LoadProductContext = createContext();
@@ -11,7 +10,7 @@ export const App = () => {
     const [products, setProducts] = useState(null);
 
     useEffect(() => {
-        getProducts();
+        refreshProducts();
         const isUserLoggedIn = localStorage.getItem("ecommerceToken");
         const userDataEcommerce = localStorage.getItem("userDataEcommerce");
         if (isUserLoggedIn && userDataEcommerce) {
@@ -20,29 +19,24 @@ export const App = () => {
         }
     }, []);
 
-    const getProducts = async () => {
-        try {
-            const { data } = await axios.get(
-                `${defineUriByEnviroment()}/api/products`
-            );
-            setProducts(data);
-        } catch (err) {
-            console.log(err);
-        }
+    const refreshProducts = async () => {
+        setProducts([]);
+        const data = await getProducts();
+        setProducts(data);
     };
 
-    const logOff = () => {
+    const handleLogOff = () => {
         localStorage.removeItem("ecommerceToken");
         localStorage.removeItem("userDataEcommerce");
         setUser(null);
     };
-    const logIn = (userData) => {
+    const handleLogIn = (userData) => {
         setUser(userData);
     };
     return (
         <UserContext.Provider value={user}>
-            <LoadProductContext.Provider value={{ products, getProducts }}>
-                <Navbar logOff={logOff} logIn={logIn} />
+            <LoadProductContext.Provider value={{ products, refreshProducts }}>
+                <Navbar handleLogOff={handleLogOff} handleLogIn={handleLogIn} />
                 <Main />
             </LoadProductContext.Provider>
         </UserContext.Provider>

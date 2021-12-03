@@ -20,13 +20,12 @@ import {
     textAndPriceDivVariants,
 } from "./framerVariants";
 import { useIsSmall } from "../../hooks/useMediaQuery";
-import axios from "axios";
 import { AnimatePresence } from "framer-motion";
 import ProductModal from "../Modals/ProductModal/ProductModal";
-import { defineUriByEnviroment } from "../../config";
 import { UserContext } from "../../App";
 import FormModal from "../Modals/FormModal/FormModal";
 import { LoadProductContext } from "../../App";
+import { deleteProduct, getItemBrand, putProduct } from "../../helper/api";
 
 const ProductListItem = ({ grid, product, index }) => {
     const [brandInfo, setBrandInfo] = useState();
@@ -35,7 +34,7 @@ const ProductListItem = ({ grid, product, index }) => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
     const user = useContext(UserContext);
-    const { getProducts } = useContext(LoadProductContext);
+    const { refreshProducts } = useContext(LoadProductContext);
     const isSmall = useIsSmall();
 
     const editProductBody = [
@@ -75,7 +74,7 @@ const ProductListItem = ({ grid, product, index }) => {
     };
 
     useEffect(() => {
-        getItemBrand(); // eslint-disable-next-line
+        handleGetItemBrand(); // eslint-disable-next-line
     }, []);
     useEffect(() => {
         if (user?.admin) {
@@ -85,60 +84,27 @@ const ProductListItem = ({ grid, product, index }) => {
         }
     }, [user]);
 
-    const getItemBrand = async () => {
+    const handleGetItemBrand = async () => {
         if (product) {
-            try {
-                const { data } = await axios.get(
-                    `${defineUriByEnviroment()}/api/brand/${product.brand_id}`
-                );
-                setBrandInfo(data);
-            } catch (err) {
-                console.log(err);
-            }
+            const data = await getItemBrand(product);
+            setBrandInfo(data);
         }
     };
-    const deleteProduct = async () => {
-        try {
-            const { data } = await axios.delete(
-                `${defineUriByEnviroment()}/api/products/${product.id}`,
-                {
-                    headers: {
-                        authorization: `Bearer ${user.accessToken}`,
-                    },
-                }
-            );
-            console.log(data);
-        } catch (error) {}
-    };
+
     const handleDeleteProduct = async () => {
-        await deleteProduct();
-        await getProducts();
+        await deleteProduct(product, user.accessToken);
+        await refreshProducts();
     };
 
     const handleEditProduct = async (body) => {
-        await putProduct(body);
-        await getProducts();
+        await putProduct(body, product, user.accessToken);
+        await refreshProducts();
     };
 
     const toggleEditModal = () => {
         setShowEditModal(!showEditModal);
     };
 
-    const putProduct = async (body) => {
-        try {
-            const { data } = await axios.put(
-                `${defineUriByEnviroment()}/api/products/${product.id}`,
-                body,
-                {
-                    headers: {
-                        authorization: `Bearer ${user.accessToken}`,
-                    },
-                }
-            );
-        } catch (err) {
-            console.log(err);
-        }
-    };
     return (
         <AnimatePresence>
             {!product ? (

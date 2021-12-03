@@ -14,17 +14,16 @@ import ProductListOrGrid from "../ProductListOrGrid/ProductListOrGrid";
 import { UserContext } from "../../App";
 import FormModal from "../Modals/FormModal/FormModal";
 import { LoadProductContext } from "../../App";
-import axios from "axios";
 import BrandBar from "../BrandBar/BrandBar";
-import { defineUriByEnviroment } from "../../config";
 import UsersBar from "../UsersBar/UsersBar";
+import { getBrands, postProducts } from "../../helper/api";
 
 const Main = () => {
     const [layout, setLayout] = useState("column");
     const [isAdmin, setIsAdmin] = useState(false);
     const [showNewProductForm, setShowNewProductForm] = useState(false);
     const [brands, setBrands] = useState();
-    const { getProducts } = useContext(LoadProductContext);
+    const { refreshProducts } = useContext(LoadProductContext);
     const user = useContext(UserContext);
     useEffect(() => {
         if (user) {
@@ -32,33 +31,21 @@ const Main = () => {
         } else {
             setIsAdmin(false);
         }
-        getBrands();
+        handleGetBrands();
     }, [user]);
-    const getBrands = async () => {
-        const { data } = await axios.get(
-            `${defineUriByEnviroment()}/api/brands`
-        );
+
+    const handleGetBrands = async () => {
+        const data = await getBrands();
         if (data) setBrands(data);
     };
+
     const handleNewProduct = async (product) => {
-        try {
-            await axios.post(
-                `${defineUriByEnviroment()}/api/products`,
-                product,
-                {
-                    headers: {
-                        authorization: `Bearer ${user.accessToken}`,
-                    },
-                }
-            );
-            getProducts();
-        } catch (err) {
-            console.log(err.message);
-        }
+        await postProducts(product, user.accessToken);
+        refreshProducts();
     };
 
     const toggleNewProductForm = () => {
-        getBrands();
+        handleGetBrands();
         setShowNewProductForm(!showNewProductForm);
     };
     return (
