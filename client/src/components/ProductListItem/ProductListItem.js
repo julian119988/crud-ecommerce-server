@@ -80,10 +80,8 @@ const ProductListItem = ({ grid, product, index }) => {
     useEffect(() => {
         if (user?.admin) {
             setIsAdmin(true);
-            console.log(isAdmin);
         } else {
             setIsAdmin(false);
-            console.log(isAdmin);
         }
     }, [user]);
 

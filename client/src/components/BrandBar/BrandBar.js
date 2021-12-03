@@ -81,7 +81,6 @@ const BrandBar = () => {
         await getProducts();
     };
     const deleteBrand = async (body) => {
-        console.log(user.accessToken);
         try {
             await axios.delete(
                 `${defineUriByEnviroment()}/api/brands/${body.brand_id}`,
