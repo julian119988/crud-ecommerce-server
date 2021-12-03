@@ -11,6 +11,7 @@ const ProductListOrGrid = ({ grid }) => {
     const isSmall = useIsSmall();
 
     useEffect(() => {
+        console.log(products);
         if (products) {
             setLoadedProducts(products);
         } else {
