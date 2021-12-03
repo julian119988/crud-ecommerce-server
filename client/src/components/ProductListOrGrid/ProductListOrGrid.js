@@ -26,6 +26,7 @@ const ProductListOrGrid = ({ grid }) => {
             {!loadedProducts ? (
                 <div>No product is available</div>
             ) : (
+                <div>asd</div> /* 
                 loadedProducts.map((product, index) => (
                     <ProductListItem
                         product={product}
@@ -33,7 +34,7 @@ const ProductListOrGrid = ({ grid }) => {
                         grid={grid}
                         index={index}
                     />
-                ))
+                ))*/
             )}
         </ProductsDiv>
     );
