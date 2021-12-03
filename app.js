@@ -18,7 +18,7 @@ var corsOptions = {
         "http://18.223.2.137:8080/",
     ],
 };
-app.use(cors(corsOptions));
+app.use(cors("*"));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
