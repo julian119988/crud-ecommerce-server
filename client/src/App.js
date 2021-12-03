@@ -25,6 +25,7 @@ export const App = () => {
             const { data } = await axios.get(
                 `${defineUriByEnviroment()}/api/products`
             );
+            console.log(data, `${defineUriByEnviroment()}/api/products`);
             setProducts(data);
         } catch (err) {
             console.log(err);
