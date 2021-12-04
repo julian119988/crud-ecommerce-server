@@ -19,6 +19,7 @@ var corsOptions = {
         "http://ec2-18-223-2-137.us-east-2.compute.amazonaws.com",
         "http://18.223.2.137:8080",
         "http://18.223.2.137:80",
+        "http://18.223.2.137",
     ],
 };
 app.use(cors(corsOptions));
