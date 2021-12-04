@@ -6,32 +6,32 @@
 
 Es una aplicación SPA hecha con NodeJS, MySQL, Sequelize, React y más.
 
-#¿Que se puede hacer?
+# ¿Que se puede hacer?
 
 En esta aplicación se pueden cargar productos, marcas y usuarios, en la cual se pueden editar cada uno de ellos a traves del frontend por medio de api calls al servidor por el protocolo HTTP.
 
-#¿Con que tecnologías esta desarrollado?
+# ¿Con que tecnologías esta desarrollado?
 
-###Frontend
+### Frontend
 
 El frontend esta hecho con Reactjs e iniciado con [CRA](https://www.npmjs.com/package/create-react-app "CRA"), también se usaron con las siguientes librerías:
 
-#####Dependencies
+##### Dependencies
 
 -   [Framer motion](https://www.npmjs.com/package/framer-motion "Framer motion")
 -   [Styled components](https://www.npmjs.com/package/styled-components "Styled components")
 -   [React loader spinner](https://www.npmjs.com/package/react-loader-spinner "React loader spinner")
 -   [React notifications](https://www.npmjs.com/package/react-notifications "React notifications")
 
-####Backend
+#### Backend
 
 El backend esta hecho con NodeJS utilizando el framework de [Express](https://www.npmjs.com/package/express "Express"). También se utilizaron las siguientes librerías:
 
-#####DevDependencies
+##### DevDependencies
 
 -   [Nodemon](https://www.npmjs.com/package/nodemon "Nodemon")
 
-#####Dependencies
+##### Dependencies
 
 -   [Axios](https://www.npmjs.com/package/axios "Axios")
 -   [Bcrypt](https://www.npmjs.com/package/bcrypt "Bcrypt")
@@ -48,7 +48,7 @@ El backend esta hecho con NodeJS utilizando el framework de [Express](https://ww
 En el root del repositorio se encuentra el servidor de nodejs, en la carpeta "client" se encuentra el cliente de react.
 El servidor, sirve los archivos estaticos generados por el cliente en la carpeta "server/client/build" en cualquier dirección que no este ocupada por la api.
 
-#Correr localmente
+# Correr localmente
 
 Para lanzar la aplicación localmente se debe tener instalado Node y poseer una base de datos, luego se deben seguir los siguientes pasos:
 
@@ -59,7 +59,7 @@ Para lanzar la aplicación localmente se debe tener instalado Node y poseer una 
 -   Finalmente ejecutamos `npm run dev` en el root del repositorio. Después abrimos una consola adicional, nos posicionamos en la carpeta client del repositorio y ejecutamos `npm start`
 -   Al dirigirnos a la dirección `http://localhost:3000/` en el navegador veremos la aplicación funcionando.
 
-#Cosas a tener en cuenta
+# Cosas a tener en cuenta
 
 -   Se pueden crear 2 tipos de cuentas, admin o no admin.
 -   Solo las cuentas de admin puede hacer modificaciones en la base de datos o crear otras cuentas admin.
