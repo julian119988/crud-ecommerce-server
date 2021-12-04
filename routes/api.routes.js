@@ -9,10 +9,12 @@ const {
     putBrand,
     deleteBrand,
     getOneBrand,
+    getProductById,
 } = require("../controllers/api.controllers");
 const { isAuthorized, isAdmin } = require("../middlewares/auth.middlewares");
 
 router.get("/products", getProducts);
+router.get("/products/:id", getProductById);
 router.post("/products", isAdmin, postProduct);
 router.put("/products/:id", isAdmin, putProduct);
 router.delete("/products/:id", isAdmin, deleteProduct);

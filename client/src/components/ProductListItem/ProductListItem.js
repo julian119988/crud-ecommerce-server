@@ -26,6 +26,7 @@ import { UserContext } from "../../App";
 import FormModal from "../Modals/FormModal/FormModal";
 import { LoadProductContext } from "../../App";
 import { deleteProduct, getItemBrand, putProduct } from "../../helper/api";
+import Loader from "react-loader-spinner";
 
 const ProductListItem = ({ grid, product, index }) => {
     const [brandInfo, setBrandInfo] = useState();
@@ -97,8 +98,17 @@ const ProductListItem = ({ grid, product, index }) => {
     };
 
     const handleEditProduct = async (body) => {
-        await putProduct(body, product, user.accessToken);
-        await refreshProducts();
+        const wasSuccessfull = await putProduct(
+            body,
+            product,
+            user.accessToken
+        );
+        if (wasSuccessfull) {
+            refreshProducts();
+            return true;
+        } else {
+            return false;
+        }
     };
 
     const toggleEditModal = () => {
@@ -114,6 +124,7 @@ const ProductListItem = ({ grid, product, index }) => {
                     key={7771 * (index + 1)}
                     onClick={toggleModal}
                     variants={containerVariants}
+                    initial={{ opacity: 0, width: "200px", height: "120px" }}
                     animate={
                         grid
                             ? !isSmall
@@ -124,6 +135,7 @@ const ProductListItem = ({ grid, product, index }) => {
                             : "bigColumn"
                     }
                     whileHover={{ scale: 1.05 }}
+                    exit={{ opacity: 0 }}
                 >
                     <ImageThumbnail
                         key={7774 * (index + 1)}
@@ -173,7 +185,12 @@ const ProductListItem = ({ grid, product, index }) => {
                             >{`$ ${product.price}`}</Price>
                         </TextAndPriceDiv>
                         {!brandInfo && !isBrandLogoLoaded ? (
-                            <div>Loading...</div>
+                            <Loader
+                                type="Puff"
+                                color="#333"
+                                height={30}
+                                width={30}
+                            />
                         ) : (
                             <BrandLogo
                                 key={7779 * (index + 1)}

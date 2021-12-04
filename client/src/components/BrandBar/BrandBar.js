@@ -21,8 +21,13 @@ const BrandBar = () => {
     const user = useContext(UserContext);
 
     const handleAddBrand = async (data) => {
-        await postBrand(data, user.accessToken);
-        refreshProducts();
+        const wasSuccessfull = await postBrand(data, user.accessToken);
+        if (wasSuccessfull) {
+            refreshProducts();
+            return true;
+        } else {
+            return false;
+        }
     };
 
     const toggleShowModalAddBrand = () => {
@@ -39,8 +44,13 @@ const BrandBar = () => {
         setShowModalEditBrand(!showModalEditBrand);
     };
     const handleEditBrand = async (data) => {
-        await putBrand(data, user.accessToken);
-        await refreshProducts();
+        const wasSuccessful = await putBrand(data, user.accessToken);
+        if (wasSuccessful) {
+            refreshProducts();
+            return true;
+        } else {
+            return false;
+        }
     };
 
     const toggleShowModalDeleteBrand = () => {
@@ -48,16 +58,22 @@ const BrandBar = () => {
         setShowModalDeleteBrand(!showModalDeleteBrand);
     };
     const handleDeleteBrand = async (data) => {
-        await deleteBrand(data, user.accessToken);
-        await refreshProducts();
+        const wasSuccessfull = await deleteBrand(data, user.accessToken);
+        if (wasSuccessfull) {
+            refreshProducts();
+            return true;
+        } else {
+            return false;
+        }
     };
 
     return (
         <AnimatePresence>
-            <BrandDiv>
-                <Title>Brands</Title>
-                <ButtonsDiv>
+            <BrandDiv key={55412}>
+                <Title key={55413}>Brands</Title>
+                <ButtonsDiv key={55414}>
                     <NewBrand
+                        key={55415}
                         whileHover={{
                             opacity: 0.5,
                         }}
@@ -66,6 +82,7 @@ const BrandBar = () => {
                         Add a brand
                     </NewBrand>
                     <EditBrand
+                        key={55416}
                         whileHover={{
                             opacity: 0.5,
                         }}
@@ -74,6 +91,7 @@ const BrandBar = () => {
                         Edit a brand
                     </EditBrand>
                     <DeleteBrand
+                        key={55417}
                         whileHover={{
                             opacity: 0.5,
                         }}
@@ -84,6 +102,7 @@ const BrandBar = () => {
                 </ButtonsDiv>
             </BrandDiv>
             <FormModal
+                key={55418}
                 isVisible={showModalAddBrand}
                 toggleModal={toggleShowModalAddBrand}
                 title="New Brand"
@@ -92,6 +111,7 @@ const BrandBar = () => {
                 body={brandBody}
             />
             <FormModal
+                key={55419}
                 isVisible={showModalEditBrand}
                 toggleModal={toggleShowModalEditBrand}
                 title="Edit a Brand"
@@ -101,6 +121,7 @@ const BrandBar = () => {
                 options={brands}
             />
             <FormModal
+                key={55420}
                 isVisible={showModalDeleteBrand}
                 toggleModal={toggleShowModalDeleteBrand}
                 title="Delete a Brand"

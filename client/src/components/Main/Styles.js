@@ -12,7 +12,7 @@ export const MainDiv = styled(motion.main)`
     background-size: auto;
     background-origin: padding-box;
     background-clip: border-box;
-    min-height: 88vh;
+    min-height: 76vh;
 `;
 
 export const ProductSection = styled(motion.div)`
@@ -36,12 +36,13 @@ export const TitleAndLayoutSelector = styled(motion.div)`
     padding-right: 5vw;
     padding-top: 2vh;
     padding-bottom: 2vh;
-    border-radius: 5px;
+    border-radius: 0px;
     box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.3);
     margin-bottom: 3vh;
     max-width: 700px;
     @media (min-width: 700px) {
         width: 700px;
+        border-radius: 5px;
         margin-right: auto;
         margin-left: auto;
     }

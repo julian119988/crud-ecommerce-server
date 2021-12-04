@@ -7,7 +7,7 @@ module.exports = {
             const brands = await Brands.findAll();
             res.send(brands);
         } catch (err) {
-            res.status(400).send(err);
+            res.status(400).send({ message: "Something went wrong!" });
         }
     },
     getOneBrand: async (req, res) => {
@@ -31,10 +31,10 @@ module.exports = {
                 name: name,
                 logo_url: logo_url,
             });
-            const newBrandIsSaved = await newBrand.save();
-            res.status(200).send(newBrandIsSaved);
+            await newBrand.save();
+            res.status(200).send({ message: "New brand created!" });
         } catch (err) {
-            res.status(400).send(err);
+            res.status(400).send({ message: "Something went wrong!" });
         }
     },
     putBrand: async (req, res) => {
@@ -48,9 +48,9 @@ module.exports = {
                 },
                 { where: { id: id } }
             );
-            res.send(updatedBrand);
+            res.send({ message: "Brand successfully updated!" });
         } catch (err) {
-            res.status(400).send(err);
+            res.status(400).send({ message: "Something went wrong!" });
         }
     },
     deleteBrand: async (req, res) => {
@@ -69,6 +69,19 @@ module.exports = {
         try {
             const products = await Products.findAll();
             res.send(products);
+        } catch (err) {
+            res.status(400).send({ message: "Something went wrong!" });
+        }
+    },
+    getProductById: async (req, res) => {
+        const { id } = req.params;
+        try {
+            const products = await Products.findOne({ where: { id } });
+            if (products !== null) {
+                res.send(products);
+            } else {
+                res.send({ message: "No product with that id" });
+            }
         } catch (err) {
             res.status(400).send({ message: "Something went wrong! :(" });
         }
@@ -92,8 +105,8 @@ module.exports = {
                 price,
                 brand_id,
             });
-            const newProductsIsSaved = await newProduct.save();
-            res.status(200).send(newProductsIsSaved);
+            await newProduct.save();
+            res.status(200).send({ message: "Product created successfully!" });
         } catch ({ message }) {
             res.status(400).send(message);
         }
@@ -117,9 +130,8 @@ module.exports = {
             const deletedProduct = await Products.destroy({
                 where: { id: id },
             });
-            if (!deletedProduct[0])
-                throw new Error("The product doesn't exist.");
-            res.send(deletedProduct);
+            if (!deletedProduct) throw new Error("The product doesn't exist.");
+            res.send({ message: "Product deleted successfully!" });
         } catch (err) {
             res.status(400).send(err);
         }

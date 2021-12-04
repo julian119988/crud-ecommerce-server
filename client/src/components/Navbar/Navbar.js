@@ -1,14 +1,22 @@
 import { useContext, useEffect, useState } from "react";
-import { LogInButton, LogOffButton, Nav, Title, SignUpButton } from "./Styles";
+import {
+    LogInButton,
+    LogOffButton,
+    Nav,
+    Title,
+    SignUpButton,
+    LoadPlaceholdersButton,
+} from "./Styles";
 import FormModal from "../Modals/FormModal/FormModal";
-import { UserContext } from "../../App";
-import { logIn, signUp } from "../../helper/api";
+import { LoadProductContext, UserContext } from "../../App";
+import { logIn, postLoadPlaceholders, signUp } from "../../helper/api";
 
 const Navbar = ({ handleLogOff, handleLogIn }) => {
     const [openLogInModal, setOpenLogInModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
     const [isUser, setIsUser] = useState(null);
     const user = useContext(UserContext);
+    const { refreshProducts } = useContext(LoadProductContext);
     useEffect(() => {
         setIsUser(user);
     }, [user]);
@@ -25,9 +33,9 @@ const Navbar = ({ handleLogOff, handleLogIn }) => {
                 JSON.stringify({ email, admin, accessToken })
             );
             handleLogIn({ email, admin, accessToken });
-            toggleLogInModal();
+            return true;
         } else {
-            alert("Error en el log in");
+            return false;
         }
     };
 
@@ -47,15 +55,39 @@ const Navbar = ({ handleLogOff, handleLogIn }) => {
                 JSON.stringify({ email, admin, accessToken })
             );
             handleLogIn({ accessToken, email, admin });
+            return true;
+        } else {
+            return false;
         }
+    };
+    const handleLoadPlaceholders = async () => {
+        const wasSuccessfull = await postLoadPlaceholders(user.accessToken);
+        if (wasSuccessfull) refreshProducts();
     };
 
     return (
-        <Nav>
-            <Title>Ecommerce App</Title>
+        <Nav key={986789320}>
+            <Title key={986789321}>Ecommerce App</Title>
             {isUser ? (
                 <>
+                    {isUser.admin === true && (
+                        <LoadPlaceholdersButton
+                            key={9867893242}
+                            exit={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            initial={{ opacity: 0 }}
+                            whileHover={{
+                                scale: 1.1,
+                                boxShadow:
+                                    "0px 0px 14px 0px rgba(255,255,255,0.85)",
+                            }}
+                            onClick={handleLoadPlaceholders}
+                        >
+                            Load random products
+                        </LoadPlaceholdersButton>
+                    )}
                     <LogOffButton
+                        key={986789322}
                         exit={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         initial={{ opacity: 0 }}
@@ -72,6 +104,7 @@ const Navbar = ({ handleLogOff, handleLogIn }) => {
             ) : (
                 <>
                     <LogInButton
+                        key={986789323}
                         whileHover={{
                             scale: 1.1,
                             boxShadow:
@@ -85,6 +118,7 @@ const Navbar = ({ handleLogOff, handleLogIn }) => {
                         Log In
                     </LogInButton>
                     <SignUpButton
+                        key={986789324}
                         whileHover={{
                             scale: 1.1,
                             boxShadow:
@@ -100,6 +134,7 @@ const Navbar = ({ handleLogOff, handleLogIn }) => {
                 </>
             )}
             <FormModal
+                key={9867899}
                 isVisible={openLogInModal}
                 toggleModal={toggleLogInModal}
                 title="Log in"
@@ -108,6 +143,7 @@ const Navbar = ({ handleLogOff, handleLogIn }) => {
                 getFormData={handleModalLogIn}
             />
             <FormModal
+                key={9867897}
                 isVisible={showSignUpModal}
                 toggleModal={toggleSignUpModal}
                 title="Sign up"

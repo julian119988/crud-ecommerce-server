@@ -15,6 +15,7 @@ export const Title = styled(motion.h2)`
     color: #ececec;
     margin-top: auto;
     margin-bottom: auto;
+    margin-right: auto;
     @media (min-width: 600px) {
         margin-left: 10%;
     }
@@ -61,7 +62,6 @@ export const LogOffButton = styled(motion.button)`
     cursor: pointer;
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: auto;
     @media (min-width: 600px) {
         margin-right: 10%;
     }
@@ -89,4 +89,26 @@ export const SignUpButton = styled(motion.button)`
     @media (min-width: 600px) {
         margin-right: 10%;
     }
+`;
+
+export const LoadPlaceholdersButton = styled(motion.button)`
+    margin-left: auto;
+    margin-right: 5%;
+    font-size: 1.5rem;
+    padding-bottom: 0.5vh;
+    padding-top: 0.5vh;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    align-self: center;
+    text-align: center;
+    display: flex;
+    background-color: transparent;
+    border: 2px solid #ececec;
+    border-radius: 10px;
+    color: #ececec;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
 `;

@@ -9,7 +9,7 @@ export const BrandDiv = styled(motion.div)`
     padding-right: 5vw;
     padding-top: 2vh;
     padding-bottom: 2vh;
-    border-radius: 5px;
+    border-radius: 0px;
     box-shadow: 0px 0px 5px -2px rgba(0, 0, 0, 0.3);
     margin-bottom: 3vh;
     max-width: 700px;
@@ -19,6 +19,7 @@ export const BrandDiv = styled(motion.div)`
     }
     @media (min-width: 700px) {
         width: 700px;
+        border-radius: 5px;
         margin-right: auto;
         margin-left: auto;
     }

@@ -5,6 +5,7 @@ export const containerVariants = {
         width: "150px",
         height: "230px",
         maxWidth: "150px",
+        opacity: 1,
     },
     smallColumn: {
         display: "flex",
@@ -14,22 +15,25 @@ export const containerVariants = {
         maxWidth: "700px",
         marginTop: "1vh",
         marginBottom: "1vh",
+        opacity: 1,
     },
     bigGrid: {
         display: "flex",
         flexDirection: "column",
         width: "250px",
-        height: "350px",
+        height: "400px",
         maxWidth: "250px",
+        opacity: 1,
     },
     bigColumn: {
         display: "flex",
         flexDirection: "row",
-        width: "450px",
+        width: "700px",
         height: "150px",
-        maxWidth: "700px",
+        maxWidth: "80vw",
         marginTop: "1.5vh",
         marginBottom: "1.5vh",
+        opacity: 1,
     },
 };
 export const imageThumbnailVariants = {
@@ -95,6 +99,7 @@ export const textAndPriceDivVariants = {
         marginLeft: "20px",
         paddingRight: "10px",
         marginBottom: "20px",
+        width: "60%",
     },
     bigColumn: {
         width: "60%",

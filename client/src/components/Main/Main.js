@@ -40,8 +40,13 @@ const Main = () => {
     };
 
     const handleNewProduct = async (product) => {
-        await postProducts(product, user.accessToken);
-        refreshProducts();
+        const wasSuccessfull = await postProducts(product, user.accessToken);
+        if (wasSuccessfull) {
+            refreshProducts();
+            return true;
+        } else {
+            return false;
+        }
     };
 
     const toggleNewProductForm = () => {

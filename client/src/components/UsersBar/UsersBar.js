@@ -30,18 +30,27 @@ const UsersBar = () => {
         setAllUsers(users);
     };
     const handleNewUser = async (data) => {
-        await postAdminUser(data);
+        const wasSuccessfull = await postAdminUser(data, user.accessToken);
+        if (wasSuccessfull) return true;
+        return false;
     };
     const handleDeleteUser = async (body) => {
-        await deleteUser(body, isUser.accessToken);
+        const wasSuccessfull = await deleteUser(
+            body,
+            isUser.accessToken,
+            isUser.email
+        );
+        if (wasSuccessfull) return true;
+        return false;
     };
 
     return (
         <AnimatePresence>
-            <UsersDiv>
-                <Title>Users</Title>
-                <ButtonsDiv>
+            <UsersDiv key={44390}>
+                <Title key={44391}>Users</Title>
+                <ButtonsDiv key={44392}>
                     <NewAdminUser
+                        key={44393}
                         whileHover={{
                             opacity: 0.5,
                         }}
@@ -50,6 +59,7 @@ const UsersBar = () => {
                         Create admin user
                     </NewAdminUser>
                     <DeleteUser
+                        key={44394}
                         whileHover={{
                             opacity: 0.5,
                         }}
@@ -59,8 +69,8 @@ const UsersBar = () => {
                     </DeleteUser>
                 </ButtonsDiv>
             </UsersDiv>
-
             <FormModal
+                key={44395}
                 isVisible={showNewUserModal}
                 toggleModal={toggleShowNewUserModal}
                 title="New admin user"
@@ -68,8 +78,8 @@ const UsersBar = () => {
                 submitButtonText="Create"
                 body={signUpBody}
             />
-
             <FormModal
+                key={44396}
                 isVisible={showDeleteUserModal}
                 toggleModal={toggleShowDeleteUserModal}
                 title="Delete an User"

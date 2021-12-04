@@ -10,7 +10,9 @@ export const Main = styled(motion.div)`
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.4);
     top: 0;
+    left: 0;
     z-index: 100;
+    color: #333;
 `;
 
 export const Form = styled(motion.form)`
@@ -22,6 +24,14 @@ export const Form = styled(motion.form)`
     border-radius: 10px;
     padding: 5%;
     max-width: 600px;
+    color: #333;
+    div {
+        display: flex;
+        svg {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
 `;
 
 export const Title = styled(motion.h2)`
@@ -29,6 +39,7 @@ export const Title = styled(motion.h2)`
     margin: 0;
     margin-bottom: 1vh;
     font-family: "Rubik", sans-serif;
+    color: #333;
 `;
 
 export const Input = styled(motion.input)`
@@ -36,6 +47,7 @@ export const Input = styled(motion.input)`
     margin-bottom: 1vh;
     font-size: 1.5rem;
     font-family: "Rubik", sans-serif;
+    color: #333;
 `;
 
 export const SubmitButton = styled(motion.input)`
@@ -57,4 +69,6 @@ export const SubmitButton = styled(motion.input)`
 export const Label = styled(motion.label)`
     font-size: 1.5rem;
     margin-top: 5px;
+    color: #333;
+    font-family: "Rubik", sans-serif;
 `;

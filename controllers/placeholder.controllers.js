@@ -1,19 +1,11 @@
 const { tables } = require("../models/index");
-const { Products, Brands, Users } = tables;
-const path = require("path");
+const { Products, Brands } = tables;
 const axios = require("axios");
-const bcrypt = require("bcrypt");
 
 module.exports = {
     hardcodeDB: async (req, res) => {
-        const commonPath = path.join(__dirname, "..", "public");
-        const adidas = path.join(commonPath, "adidas.jpg");
-        const gucci = path.join(commonPath, "gucci.png");
-        const levis = path.join(commonPath, "levis.png");
-        const underArmour = path.join(commonPath, "underArmour.png");
-        const zara = path.join(commonPath, "sara.svg");
         try {
-            const brands = await Brands.bulkCreate([
+            await Brands.bulkCreate([
                 {
                     name: "Adidas",
                     logo_url:
@@ -40,11 +32,9 @@ module.exports = {
                         "https://i.blogs.es/5b1edc/captura-de-pantalla-2020-04-01-a-las-17.53.58/1366_2000.png",
                 },
             ]);
-
             const { data } = await axios.get(
                 "https://fakestoreapi.com/products"
             );
-
             const allBrands = await Brands.findAll();
             const totalBrands = allBrands.length - 1;
             data.forEach(async ({ title, description, image, price }) => {
@@ -57,13 +47,6 @@ module.exports = {
                 });
                 product.save();
             });
-            const hashedPassword = await bcrypt.hash("admin", 10);
-            const adminAccount = await Users.create({
-                email: "admin@admin.com",
-                password: hashedPassword,
-                admin: true,
-            });
-            adminAccount.save();
             res.send({ message: "Data created successfully" });
         } catch (err) {
             res.status(400).send(err.message);
